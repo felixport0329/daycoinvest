@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-
 import db from "../firebase"
-import { onSnapshot, collection } from 'firebase/firestore';
+import { onSnapshot, collection, getDocs } from 'firebase/firestore';
+
+//https://dev.to/abhisheks12/read-data-from-firebase-firestore-v9-28be
 
 function Home({changePage}) {
 
@@ -9,14 +10,37 @@ function Home({changePage}) {
     
     console.log(invests);
     
-    useEffect( () => 
-      onSnapshot(collection(db,"invest"),(snapshot)=>
-        //console.log(snapshot.docs.map((doc)=> ({...doc.data(), id: doc.id })));
-        //setInvests(snapshot.docs.map((doc)=> doc.data()));
-        setInvests(snapshot.docs.map((doc)=>({...doc.data(), id: doc.id })))
-      ),
-      []
-    );
+    //https://www.google.com/search?q=react+firestore+v9&rlz=1C1CHBF_en-GBGB923GB923&oq=react+firestore+v9&aqs=chrome.0.69i59l2j69i61l2.2944j0j4&sourceid=chrome&ie=UTF-8
+    // useEffect( () => 
+    //   onSnapshot(collection(db,"invest"),(snapshot)=>
+    //     //console.log(snapshot.docs.map((doc)=> ({...doc.data(), id: doc.id })));
+    //     //setInvests(snapshot.docs.map((doc)=> doc.data()));
+    //     setInvests(snapshot.docs.map((doc)=>({...doc.data(), id: doc.id })))
+    //   ),
+    //   []
+    // );
+
+    // await 가 되네
+    // useEffect( () => {
+    //     const getData = async() => {
+    //         const parkingData = await getDocs(collection(db,"invest"));
+    //         setInvests(parkingData.docs.map((doc)=>({...doc.data(), id: doc.id })));
+    //     };
+    //     getData();
+    // },[]);
+
+    
+    //https://firebase.google.cn/docs/firestore/query-data/get-data?hl=ko
+    // useEffect( async() => {
+    //     const querySnapshot = await getDocs(collection(db, "invest"));
+    //     querySnapshot.forEach((doc) => {
+    //     // doc.data() is never undefined for query doc snapshots
+    //     console.log(doc.id, " => ", doc.data());
+    //     });
+    // },[]);
+
+    
+      
 
     return (
     <div>

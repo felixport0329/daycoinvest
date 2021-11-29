@@ -1,23 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+
+import React, { useState, useEffect } from 'react';
+import Home from './components/home';
+import Modify from './components/modify';
+
+
+
+
+
 
 function App() {
+  // const onSubmit=(e)=>{
+  //   e.preventDefault();
+  //   alert('aaaa');
+  // }
+  // const onKeyUp =(event)=>{
+  //   if(event.keyCode===13){
+  //       onSubmit();
+  //   }
+  //   //console.log('keyup');
+  // }
+  // const updateText=()=>{
+  //   setText('sss');
+  // }
+ 
+  // useEffect(()=>{console.log(count),[count]})  // 렌더링 될때마다 실행 되게.  count가 변경될때만...변경 / 한번만 되고 안되게 하려면 []
+
+  // const [text, setText] = useState('init');  
+  // const [username, setUsername] = useState('');
+  // const [password, setPassword] = useState('');
+   //const ref = firebase.firestore().collection("invest");
+  
+
+
+  const [viewPage, setViewPage] = useState('home');
+  const changePage = (page)=>{
+    setViewPage(page);
+  }
+
+  let view;
+  if (viewPage==='home'){
+    view = <Home changePage={changePage}></Home>
+  }else{
+    view = <Modify changePage={changePage}></Modify>
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload. (JH)
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {view}
     </div>
   );
 }
