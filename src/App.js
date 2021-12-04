@@ -31,6 +31,7 @@ function App() {
    //const ref = firebase.firestore().collection("invest");
   
 
+   
 
   const [viewPage, setViewPage] = useState('home');
   const changePage = (page)=>{
