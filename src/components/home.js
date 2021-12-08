@@ -8,7 +8,7 @@ function Home({changePage}) {
 
     const [invests, setInvests] = useState([]);
     
-    console.log(invests);
+    //console.log(invests);
     
     //https://www.google.com/search?q=react+firestore+v9&rlz=1C1CHBF_en-GBGB923GB923&oq=react+firestore+v9&aqs=chrome.0.69i59l2j69i61l2.2944j0j4&sourceid=chrome&ie=UTF-8
     // useEffect( () => 
