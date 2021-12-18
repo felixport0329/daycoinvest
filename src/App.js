@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import Home from './components/home';
 import Modify from './components/modify';
-import NativePickers from './components/test';
 
 
 
@@ -44,10 +43,6 @@ function App() {
   else if(viewPage == 'modify')
   {   
     view = <Modify changePage={changePage}></Modify>
-  }
-  else
-  {
-    view = <NativePickers></NativePickers>
   }
 
   return (
