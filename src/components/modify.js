@@ -11,19 +11,43 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TimePicker from '@mui/lab/TimePicker';
 
 
+// const functions = require("firebase-functions");
+// const admin = require("firebase-admin");
+// admin.initializeApp(functions.config().firebase);
+// const db1 = admin.firestore();
+
+
+
 function Modify({changePage}) {
 
+
+    // useEffect(()=>{
+    //     db1.collection("invest").doc("tz7nuls2qhczJZuLSHdx").get().then((doc) => {
+    //         console.log(doc.data().balance);
+    //       }).catch((err) => {
+    //         console.log("Error", err);
+    //       });
+    // },[]);
+    
+
     useEffect( async() => {
+        //Second
         const querySnapshot = await getDocs(collection(db, "invest"));
+        // querySnapshot.forEach((doc) => {
+        //     // doc.data() is never undefined for query doc snapshots
+        //     console.log(doc.id, " => ", doc.data());
+        //   });
+
         let c = querySnapshot.docs.map((doc)=>({...doc.data(), id: doc.id}))
         //[
         //     {state:"ACTIVE", cointype:"BitCoin", balance:"3000", time:"13:00", id:},
         //     {state:"INACTIVE", cointype:"Ether", balance:"2000", time:"14:00", id:},
         //]
-
         // convert from timestamp (firebase) to date (js) object
         // https://firebase.google.com/docs/reference/js/v8/firebase.firestore.Timestamp#todate
         // c.forEach(function myF(value, index, array){
+
+
         c.forEach((value, index, array) => {
             value.time = value.time.toDate();
         });
