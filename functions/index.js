@@ -2,6 +2,9 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
+const fetch = require("node-fetch");
+// const request = require("request-promise");
+// const axios = require("axios");
 
 // function display(dis)
 // {
@@ -16,10 +19,20 @@ const db = admin.firestore();
 //   response.send("Hello from Firebase!");
 // });
 
-exports.scheduledFunction = functions.pubsub.schedule("every 30 minutes")
+// exports.getTest = functions.pubsub.schedule("every 30 minutes")
+//     .onRun((context) => {
+//       const options = {method: "GET", headers: {Accept: "application/json"}};
+//       fetch("https://api.upbit.com/v1/market/all?isDetails=false", options)
+//           .then((response) => response.json())
+//           .then((response) => console.log(response))
+//           .catch((err) => console.error(err));
+//     });
+
+
+exports.scheduledFunction = functions.pubsub.schedule("every 1 minutes")
     .onRun((context) => {
-      functions.logger.info("Hello !!! min", {structuredData: true});
-      console.log("This will be run every 1 minutes!");
+      functions.logger.info("schedule function... ", {structuredData: true});
+      console.log("This will be run every x minutes!");
 
       db.collection("invest").doc("tz7nuls2qhczJZuLSHdx").get().then((doc) => {
         console.log("a1"+doc.data().balance);
@@ -60,12 +73,39 @@ exports.scheduledFunction = functions.pubsub.schedule("every 30 minutes")
         //     .catch((error) => {
         //       console.log("error " + error);
         //     });
-        const options = {method: "GET", headers: {Accept: "application/json"}};
 
+        // const options = {method: "GET",
+        // headers: {Accept: "application/json"}};
+        // fetch("https://api.upbit.com/v1/market/all?isDetails=false", options)
+        //   .then(response => response.json())
+        //   .then(response => console.log(response))
+        //   .catch(err => console.error(err));
+        // request({
+        //   url: "https://api.upbit.com/v1/market/all?isDetails=false",
+        //   method: "GET",
+        // }).then(function(resp) {
+        //   console.log("a");
+        // }).catch(function(error) {
+        //   console.log("b");
+        // });
+        // try {
+        //   const result = axios.get("https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD");
+        //   if (result.data.length > 0 && result.data[0].basePrice) {
+        //     return result.data[0].basePrice;
+        //   } else {
+        //     functions.logger.error("getUsdKrwRateFromHana: failed");
+        //     return 0;
+        //   }
+        // } catch (e) {
+        //   functions.logger.error(e);
+        //   return 0;
+        // }
+        // ///////////////////////////////////////////////////////////////
+        const options = {method: "GET", headers: {Accept: "application/json"}};
         fetch("https://api.upbit.com/v1/market/all?isDetails=false", options)
-          .then(response => response.json())
-          .then(response => console.log(response))
-          .catch(err => console.error(err));
+            .then((response) => response.json())
+            .then((response) => console.log(response))
+            .catch((err) => console.error(err));
       }).catch((err) => {
         console.log("Error", err);
       });
