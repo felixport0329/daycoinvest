@@ -5,7 +5,8 @@
     "lint": "eslint .",
     "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
-    "start": "npm run shell",
+    "start": "npx @google-cloud/functions-framework --target=helloWorld",
+    "watch": "npm-watch start",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
@@ -20,14 +21,11 @@
   "devDependencies": {
     "eslint": "^7.6.0",
     "eslint-config-google": "^0.14.0",
-    "firebase-functions-test": "^0.2.0"
+    "firebase-functions-test": "^0.2.0",
+    "npm-watch": "^0.6.0"
   },
-  "private": true,
-  "eslintConfig": {
-    "parserOptions": {
-      "parser": "babel-eslint",
-      "sourceType": "module",
-      "allowImportExportEverywhere": true
-    }
-  }
+  "watch": {
+    "start": "*.js"
+  },
+  "private": true
 }

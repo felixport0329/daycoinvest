@@ -9,6 +9,12 @@ module.exports = {
     "google",
   ],
   rules: {
-    quotes: ["error", "double"],
+    // quotes: ["error", "double"],
+    // quotes: ["off", "double"],
+    "quotes": ["warn", "double"],
+    "camelcase": "off",
+    "indent": "off",
+    "spaced-comment": "off",
+    "object-curly-spacing": "off",
   },
 };
