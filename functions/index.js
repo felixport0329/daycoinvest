@@ -20,14 +20,11 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
   // const uuidv4 = require("uuid/v4");
   const { v4: uuidv4 } = require('uuid');
   const sign = require('jsonwebtoken').sign;
-  console.log(uuidv4);
-  console.log(sign);
 
-  const access_key = process.env.REACT_APP_UPBIT_OPEN_API_ACCESS_KEY;
-  const secret_key = process.env.REACT_APP_UPBIT_OPEN_API_SECRET_KEY;
+  const access_key = "1";
+  const secret_key = "1";
   console.log(access_key);
   console.log(secret_key);
-
 
   const payload = {
       access_key: access_key,
@@ -36,13 +33,20 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
   const token = sign(payload, secret_key);
 
   const AuthStr = 'Bearer '.concat(token);
-  // const URL = "/v1/accounts"
-  const URL = "https://api.upbit.com/v1/market/all?isDetails=false";
+  const URL = "https://api.upbit.com/v1/accounts";
+  //const URL = "https://api.upbit.com/v1/market/all?isDetails=false";
   console.log(AuthStr);
   console.log(URL);
 
-//   axios.get(URL, { headers: {Authorization: AuthStr} });
-  axios.get(URL, { headers: {Accept: "application/json"} })
+  const http = require('http');
+  http.get({'host': 'api.ipify.org', 'port': 80, 'path': '/'}, function(resp) {
+    resp.on('data', function(ip) {
+      console.log("My public IP address is: " + ip);
+    });
+  });
+
+  axios.get(URL, { headers: {Authorization: AuthStr} })
+  //axios.get(URL, { headers: {Accept: "application/json"} })
   .then((response) => {
       console.log(response.data);
   })
@@ -62,7 +66,7 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 //     });
 
 
-exports.scheduledFunction = functions.pubsub.schedule("every 1 minutes")
+exports.scheduledFunction = functions.pubsub.schedule("every 50 minutes")
     .onRun((context) => {
       functions.logger.info("schedule function... ", {structuredData: true});
       console.log("This will be run every x minutes!");
