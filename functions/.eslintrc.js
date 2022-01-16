@@ -16,5 +16,12 @@ module.exports = {
     "indent": "off",
     "spaced-comment": "off",
     "object-curly-spacing": "off",
+    "no-trailing-spaces": "off",
+    "semi": "off",
+    "no-unused-vars": "off",
+    "max-len": "off",
+    "require-jsdoc": "off",
+    "brace-style": "off",
+    "prefer-const": "off",
   },
 };
