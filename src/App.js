@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import Home from './components/home';
 import Modify from './components/modify';
-
+import New from './components/new';
+import "./App.css";
 
 
 
@@ -31,7 +32,9 @@ function App() {
 
    
 
-  const [viewPage, setViewPage] = useState('home');
+  //const [viewPage, setViewPage] = useState('home');
+  const [viewPage, setViewPage] = useState('modify');
+  // 물고 들어 가서 subcomponent에서 변경 하는 함수
   const changePage = (page)=>{
     setViewPage(page);
   }
@@ -43,6 +46,10 @@ function App() {
   else if(viewPage == 'modify')
   {   
     view = <Modify changePage={changePage}></Modify>
+  }
+  else if(viewPage == 'new')
+  {   
+    view = <New changePage={changePage}></New>
   }
 
   return (

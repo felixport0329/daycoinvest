@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  justify-content: left;
+  align-items: left;
+}
+
+
+.bulma-hamburger-mixin {
+  @include hamburger(2.5rem);
+}

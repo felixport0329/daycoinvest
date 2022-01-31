@@ -23,5 +23,9 @@ module.exports = {
     "require-jsdoc": "off",
     "brace-style": "off",
     "prefer-const": "off",
+    "space-before-blocks": "off",
+  },
+  parserOptions: {
+    "ecmaVersion": 8,
   },
 };
