@@ -23,7 +23,11 @@ import React, { useState, useEffect } from 'react';
 
 function New({changePage}) {
 
-    const [invest, setInvest] = useState({activate_status:'Active', coin_code:'BTC', invest_price:5000, coin_name:"Bitcoin", time:new Date(), invest_volume:1.01});  // one transaction
+    const d = new Date();
+    d.setFullYear(2020,0,1);
+    d.setSeconds(0);
+    console.log("New"+d)
+    const [invest, setInvest] = useState({activate_status:'Active', coin_code:'KRW-BTC', invest_price:5000, coin_name:"Bitcoin", time:d, invest_volume:1.01});  // one transaction
 
     const createNewInvest = async ()  => {
         console.log(invest);
@@ -82,8 +86,8 @@ function New({changePage}) {
                                         invest.coin_code = e.target.value;
                                         invest.coin_name = e.target[e.target.selectedIndex].text;
                                         setInvest({...invest}); }}>
-                                    <option value="BTC">Bitcoin</option>
-                                    <option value="ETH">Eitherum</option>
+                                    <option value="KRW-BTC">Bitcoin</option>
+                                    <option value="KRW-ETH">Eitherum</option>
                                 </select>
                             </div>
                         </div>
@@ -105,10 +109,13 @@ function New({changePage}) {
                             <TimePicker
                                 value={invest.time}
                                 onChange={(newValue) => {
+                                newValue.setFullYear(2020,0,1);
+                                newValue.setSeconds(0);
                                 invest.time = newValue;
                                 setInvest({...invest});
                                 }}
                                 renderInput={(params) => <TextField {...params} />}
+                                step={30}
                             />
                             </LocalizationProvider>
                         </div>

@@ -25,7 +25,8 @@ import { contains } from '@firebase/util';
 
 
 
-function Modify({changePage}) {
+
+function Modify({changePage,user,loginstatus}) {
 
 
     // useEffect(()=>{
@@ -37,57 +38,57 @@ function Modify({changePage}) {
     // },[]);
 
     
-    const handleContentLoad = () => {
-        // Functions to open and close a modal
-        function openModal($el) {
-          $el.classList.add('is-active');
-        }
+    // const handleContentLoad = () => {
+    //     // Functions to open and close a modal
+    //     function openModal($el) {
+    //       $el.classList.add('is-active');
+    //     }
       
-        function closeModal($el) {
-          $el.classList.remove('is-active');
-        }
+    //     function closeModal($el) {
+    //       $el.classList.remove('is-active');
+    //     }
       
-        function closeAllModals() {
-          (document.querySelectorAll('.modal') || []).forEach(($modal) => {
-            closeModal($modal);
-          });
-        }
+    //     function closeAllModals() {
+    //       (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+    //         closeModal($modal);
+    //       });
+    //     }
       
-        // Add a click event on buttons to open a specific modal
-        (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
-          const modal = $trigger.dataset.target;
-          const $target = document.getElementById(modal);
-          console.log($target);
+    //     // Add a click event on buttons to open a specific modal
+    //     (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+    //       const modal = $trigger.dataset.target;
+    //       const $target = document.getElementById(modal);
+    //       console.log($target);
       
-          $trigger.addEventListener('click', () => {
-            openModal($target);
-          });
-        });
+    //       $trigger.addEventListener('click', () => {
+    //         openModal($target);
+    //       });
+    //     });
       
-        // Add a click event on various child elements to close the parent modal
-        (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
-          const $target = $close.closest('.modal');
+    //     // Add a click event on various child elements to close the parent modal
+    //     (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+    //       const $target = $close.closest('.modal');
       
-          $close.addEventListener('click', () => {
-            closeModal($target);
-          });
-        });
+    //       $close.addEventListener('click', () => {
+    //         closeModal($target);
+    //       });
+    //     });
       
-        // Add a keyboard event to close all modals
-        document.addEventListener('keydown', (event) => {
-          const e = event || window.event;
+    //     // Add a keyboard event to close all modals
+    //     document.addEventListener('keydown', (event) => {
+    //       const e = event || window.event;
       
-          if (e.keyCode === 27) { // Escape key
-            closeAllModals();
-          }
-        });
-      };
+    //       if (e.keyCode === 27) { // Escape key
+    //         closeAllModals();
+    //       }
+    //     });
+    //   };
 
 
-    useEffect( ()=>{
-        console.log("using effect");
-        handleContentLoad();
-    });
+    // useEffect( ()=>{
+    //     console.log("using effect");
+    //     handleContentLoad();
+    // });
 
     useEffect( async() => {
         // //Second
@@ -121,7 +122,7 @@ function Modify({changePage}) {
         //]
         const c = querySnapshot_invest.docs.map((doc)=>({...doc.data(), id: doc.id}))
         c.forEach((value, index, array) => {   //TODO 이거 없앨수 있게 해본다.
-             value.time = value.time.toDate();
+             value.time = value.time.toDate();  // TimePicker가 Date를 원하니. Timestamp를 date로 변경 하는 코드 필요.
         });
         setState(c)
 
@@ -142,17 +143,21 @@ function Modify({changePage}) {
     //         });
     //     });
     // };
-    const handler_new = () => {
+    // const handler_new = () => {
 
-    };
+    // };
     const deleteData = async (id) => {
+        console.log("deleteDate..");
         console.log(id);
         await deleteDoc(doc(db, "invest", id));
         setState(state.filter(doc => doc.id !== id));
     };
 
-    const handler_save = () => {
+    const handler_save = (e) => {
+        e.preventDefault();
+        console.log("Handler_save..");
         state.map(async (item, index)=> {
+            console.log("SAVE..");
             console.log(item.id+","+index);
             console.log(item.time);
             console.log(Timestamp.fromDate(item.time));
@@ -175,7 +180,7 @@ function Modify({changePage}) {
                         {/* <label className="label">Status</label> */}
                         <div className="control">
                             <div className="select">
-                                <select value={item.activate_status} onChange={(e)=>{ state[index].activate_status = e.target.value; setState([...state]); console.log(e.target.value); }}>
+                                <select value={item.activate_status} onChange={(e)=>{ state[index].activate_status = e.target.value; setState([...state]); console.log("change event :"+e.target.value); }}>
                                     <option>Active</option>
                                     <option>Inactive</option>
                                 </select>
@@ -216,7 +221,11 @@ function Modify({changePage}) {
                                 //label="Basic example"
                                 value={item.time}
                                 onChange={(newValue) => {
+                                newValue.setFullYear(2020,0,1);
+                                newValue.setSeconds(0);
+                                newValue.setMilliseconds(0);
                                 state[index].time = newValue;
+                                console.log(newValue);
                                 setState([...state]);
                                 }}
                                 renderInput={(params) => <TextField {...params} />}
@@ -245,9 +254,20 @@ function Modify({changePage}) {
         </div>
     </section>);
 
+    // const loginstatus = (
+    // <section className="section">
+    // <div>
+    //     <div>
+    //         <div>{user.email}</div>
+    //         <button onClick={signOut}>SIGNOUT</button>
+    //     </div>
+    // </div>
+    // </section>);
+
     return (
     <div>
         {distop}
+        {loginstatus}
         <section>
             <div className="container center">
                 <table className="table">
@@ -269,7 +289,7 @@ function Modify({changePage}) {
 
         <section className="center">
             <button className="button mx-2 is-primary is-small" onClick={ ()=>changePage('home') }>go to home</button>
-            <button className="button mr-2 is-primary is-small" onClick={ handler_save(state) }>Modify</button>
+            <button className="button mr-2 is-primary is-small" onClick={ handler_save }>Save</button>
             {/* <button className="button is-primary is-small js-modal-trigger" data-target="modal-js-example">New</button> */}
             <button className="button is-primary is-small" onClick={()=>{ changePage('new') }}>New</button>
         </section>

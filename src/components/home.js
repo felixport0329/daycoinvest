@@ -6,11 +6,12 @@ import React, { useState, useEffect } from 'react';
 import "../App.css"
 //import axios from 'axios'
 import * as util from "../utillity/util";
+import { signOut } from '../firebase';   //변경해보기? 햇깔림
 
 //https://dev.to/abhisheks12/read-data-from-firebase-firestore-v9-28be
 
 
-function Home({changePage}) {
+function Home({changePage, user}) {
 
     //get key from firestore  (requst to firebase)
     //access account info  (api request to upbit)
@@ -85,6 +86,7 @@ function Home({changePage}) {
     // console.log("xx");
     // console.log(invests);
 
+
     return (
     <div>
         <section className="hero has-background-black">
@@ -93,6 +95,15 @@ function Home({changePage}) {
                     <figure className="image center">
                         <img src="https://bulma.io/images/placeholders/128x128.png" style={{"maxWidth":"100px"}}/>
                     </figure>
+                </div>
+            </div>
+        </section>
+        
+        <section className="section">
+            <div>
+                <div>
+                    <div>{user.email}</div>
+                    <button onClick={signOut}>SIGNOUT</button>
                 </div>
             </div>
         </section>
@@ -164,7 +175,7 @@ function Home({changePage}) {
                     </div>
                 </div>
             </div>
-         </section>
+        </section>
 
         <footer className="footer">
             <div className="content has-text-centered">
