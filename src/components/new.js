@@ -21,7 +21,7 @@ import TimePicker from '@mui/lab/TimePicker';
 
 import React, { useState, useEffect } from 'react';
 
-function New({changePage}) {
+function New({changePage,user}) {
 
     const d = new Date();
     d.setFullYear(2020,0,1);
@@ -39,7 +39,7 @@ function New({changePage}) {
             coin_code: invest.coin_code,
             invest_volume: invest.invest_volume,
             time: Timestamp.fromDate(invest.time),
-            user: "ijij41",
+            user: user.email,
         });
         console.log(docRef);
     }

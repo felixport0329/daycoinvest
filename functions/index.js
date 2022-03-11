@@ -55,7 +55,7 @@ function order(a_key, s_key, type, price)
   const secret_key = s_key;
 
   //const volume  =  '1.01';  //TEST
-  const volume  =  null;  //real
+  const volume = null;  //real
   //const ord_type = 'limit'; //TEST
   const ord_type = 'price'; //real
 
@@ -86,13 +86,13 @@ function order(a_key, s_key, type, price)
   const AuthStr = 'Bearer '.concat(token);
   const URL = "https://api.upbit.com/v1/orders";
 
-  console.log(AuthStr);
-  console.log(URL);
+  // console.log(AuthStr);
+  // console.log(URL);
 
   const http = require('http');
   http.get({'host': 'api.ipify.org', 'port': 80, 'path': '/'}, function(resp) {
     resp.on('data', function(ip) {
-      console.log("My public IP address is: " + ip);
+      // console.log("My public IP address is: " + ip);
     });
   });
 
@@ -100,7 +100,7 @@ function order(a_key, s_key, type, price)
     headers: {Authorization: AuthStr},
     })
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
   })
   .catch((error) => {
       console.log('error ' + error);
@@ -126,32 +126,43 @@ async function getCallList()
 {
   const doc_list = new Array();
   const standard_time = new Date();
-  standard_time.setFullYear(2020,0,1);
+  standard_time.setFullYear(2020, 0, 1);
   standard_time.setSeconds(0);
   standard_time.setMilliseconds(0);
-  if(standard_time.getMinutes()!=30 || standard_time.getMinutes()!=0){
-    if (standard_time.getMinutes()>30){
+
+  if(!(standard_time.getMinutes()==30 || standard_time.getMinutes()==0)){
+    if (standard_time.getMinutes() > 30){
       standard_time.setMinutes(30);
     }else{
       standard_time.setMinutes(0);
     }
-  }  // fine-tune
+  }// fine-tunnig
+
+  // if(standard_time.getMinutes()!=30 || standard_time.getMinutes()!=0){
+  //   if (standard_time.getMinutes() > 30){
+  //     standard_time.setMinutes(30);
+  //   }else{
+  //     standard_time.setMinutes(0);
+  //   }
+  // } // fine-tune
 
   //TEST
-  //standard_time.setHours(18);
-  //standard_time.setMinutes(0);
-  console.log("get call list : s_time :"+standard_time);
+  // standard_time.setHours(0);
+  // standard_time.setMinutes(0);
+
+  //console.log("get call list : s_time :" + standard_time);
 
 
   const standard_timeStamp = admin.firestore.Timestamp.fromDate(standard_time);
-  functions.logger.info("start getCallList", {structuredData: true});
+  //functions.logger.info("start getCallList", {structuredData: true});
   
+  //the user doesn't matter
   await db.collection("invest").where("time", "==", standard_timeStamp).where("activate_status","==","Active")
     .get()
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
+            // console.log(doc.id, " => ", doc.data());
             doc_list.push(doc.id);
         });
     })
@@ -159,9 +170,8 @@ async function getCallList()
         console.log("Error getting documents: ", error);
     });
   
-  functions.logger.info("end getCallList", {structuredData: true});
+  //functions.logger.info("end getCallList", {structuredData: true});
   return doc_list;
-
 }
 
 async function getInfoForBuying(doc_code)
@@ -187,7 +197,7 @@ exports.helloWorld = functions.https.onRequest(async (request, response) => {
   const doc_list = await getCallList();
   console.log(doc_list);
   const key = await db_access();
-  doc_list.forEach(async function(doc_code,index){
+  doc_list.forEach(async function(doc_code, index){
     console.log(doc_code, index);
     result = await getInfoForBuying(doc_code);  //0: coin_type   1: price
     order(key[0], key[1], result[0], result[1]);
@@ -197,20 +207,20 @@ exports.helloWorld = functions.https.onRequest(async (request, response) => {
 });
 
 exports.scheduledFunction = functions.pubsub.schedule("0,30 * * * *")
-// exports.scheduledFunction = functions.pubsub.schedule("every 1 hours")
+//exports.scheduledFunction = functions.pubsub.schedule("every 1 hours")
     .timeZone("Europe/London")
     .onRun(async (context) => {
-      functions.logger.info("schedule function... start", {structuredData: true});
+      //functions.logger.info("schedule function... start", {structuredData: true});
       // let key = await db_access();
       // order(key[0], key[1], "KRW-BTC",10000);
       // order(key[0], key[1], "KRW-ETH",10000);
       const doc_list = await getCallList();
+      //console.log(doc_list);
       const key = await db_access();
       doc_list.forEach(async function(doc_code, index){
-        result = await getInfoForBuying(doc_code);  //0: coin_type   1: price
+        result = await getInfoForBuying(doc_code); //0: coin_type   1: price
         order(key[0], key[1], result[0], result[1]);
       });
-      functions.logger.info("schedule function... end", {structuredData: true});
-
+      //functions.logger.info("schedule function... end", {structuredData: true});
       return null;
     });

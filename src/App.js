@@ -87,11 +87,11 @@ function App() {
     }
     else if(viewPage == 'modify')
     {   
-      view = <Modify changePage={changePage} loginstatus={loginstatus}></Modify>
+      view = <Modify changePage={changePage} user={user.currentUser} loginstatus={loginstatus}></Modify>
     }
     else if(viewPage == 'new')
     {   
-      view = <New changePage={changePage}></New>
+      view = <New changePage={changePage} user={user.currentUser}></New>
     }
   
   }else{

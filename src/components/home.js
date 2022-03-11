@@ -19,7 +19,7 @@ function Home({changePage, user}) {
     useEffect( async () => {
         const key = await util.get_key_from_firestore();
         const res_account_info = await util.getAccountInfo_from_upbit(key[0],key[1]);
-        const res_invest_info = await util.get_invest_operation("ijij41"); //getDocs
+        const res_invest_info = await util.get_invest_operation(user.email); //getDocs
         //console.log(res_account_info);
         let response = res_account_info.map((doc,index)=>({...doc, id: index}));
         let response_invest = []

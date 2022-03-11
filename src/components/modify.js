@@ -115,7 +115,7 @@ function Modify({changePage,user,loginstatus}) {
         // //When getting date from firebase throuhg useEffect, it must be re-rendering
         // setState(c);
 
-        const querySnapshot_invest = await util.get_invest_operation("ijij41"); //getDocs
+        const querySnapshot_invest = await util.get_invest_operation(user.email); //getDocs
         //[
         //     {state:"ACTIVE", cointype:"BitCoin", balance:"3000", time:"13:00", id:},
         //     {state:"INACTIVE", cointype:"Ether", balance:"2000", time:"14:00", id:},
@@ -124,6 +124,9 @@ function Modify({changePage,user,loginstatus}) {
         c.forEach((value, index, array) => {   //TODO 이거 없앨수 있게 해본다.
              value.time = value.time.toDate();  // TimePicker가 Date를 원하니. Timestamp를 date로 변경 하는 코드 필요.
         });
+        console.log("aaaa");
+        console.log(c);
+        console.log("bbbb");
         setState(c)
 
     },[]);

@@ -24,6 +24,11 @@ module.exports = {
     "brace-style": "off",
     "prefer-const": "off",
     "space-before-blocks": "off",
+    "comma-spacing": "off",
+    "keyword-spacing": "off",
+    "no-multi-spaces": "off",
+    "no-undef": "off",
+    "no-array-constructor": "off",
   },
   parserOptions: {
     "ecmaVersion": 8,
